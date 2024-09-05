@@ -12,6 +12,7 @@ int main() {
     numClasses = loadFile(classList, numClasses);
 
     do {
+        menuChoice = 0;
 
         cout << "\nChoose an option below." << endl << line << endl << right << setfill('.')
              << " 1.  " << setw(32) << "  Add a Class" << endl
@@ -20,13 +21,10 @@ int main() {
              << " 4.  " << setw(32) << "  Remove Grades" << endl
              << " 5.  " << setw(32) << "  Print Grades" << endl
              << " 6.  " << setw(32) << "  Print All Data" << endl
-             << " 7.  " << setw(32) << "  Exit" << endl << setfill(' ')
-             << line << endl << " Enter a number 1-6:  ";
-        cin >> menuChoice;
-        cin.ignore();
+             << " 7.  " << setw(32) << "  Exit" << endl << setfill(' ');
 
         while (menuChoice > 7 || menuChoice < 1) {
-            cout << " Enter a number 1-6:  ";
+            cout << " Enter a number 1-7:  ";
             cin >> menuChoice;
             cin.ignore();
         }
@@ -58,7 +56,7 @@ int main() {
 
     } while (menuChoice != 7);
 
-    cout << "\nDo you want to save your classes?\nSelecting no will keep the data that was stored when opened\n(y or n):  ";
+    cout << "\nDo you want to save your classes?\nSelecting no will keep the data that was stored before opening\n(y or n):  ";
     cin >> save;
     if (save == 'y') {
         saveToFile(classList, numClasses);
