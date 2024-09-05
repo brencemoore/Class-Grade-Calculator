@@ -24,7 +24,7 @@ int main() {
         cin >> menuChoice;
         cin.ignore();
 
-        while (menuChoice > 7 || menuChoice < 1) {
+        while (menuChoice > 6 || menuChoice < 1) {
             cout << " Enter a number 1-6:  ";
             cin >> menuChoice;
             cin.ignore();
@@ -51,13 +51,9 @@ int main() {
             printGrades(classList, numClasses);
         }
 
-        if (menuChoice == 7) {
-            fakePrint(classList, numClasses);
-        }
-
     } while (menuChoice != 6);
 
-    cout << "\nDo you want to save your classes? (y or n):  ";
+    cout << "\nDo you want to save your classes?\nSelecting no will keep the data that was stored when opened\n(y or n):  ";
     cin >> save;
     if (save == 'y') {
         saveToFile(classList, numClasses);
