@@ -97,6 +97,7 @@ int addClass(Course classList[], int numClasses) {
 
 int editClass(Course classList[], int numClasses) {
     int classIndex, menuChoice, gradePartChoice, i;
+    string confirm;
 
     classIndex = printClasses(classList, numClasses, "Edit/Delete");
 
@@ -149,7 +150,12 @@ int editClass(Course classList[], int numClasses) {
     }
 
     if (menuChoice == 6) {
-        numClasses = deleteCourse(classList, numClasses, classIndex);
+        cout << "\nAre you sure? You cannot undo this. (y / n):  ";
+        getline(cin, confirm);
+
+        if (confirm == "y") {
+            numClasses = deleteCourse(classList, numClasses, classIndex);
+        }
     }
 
     return numClasses;
@@ -283,7 +289,8 @@ void printGrades(Course classList[], int numClasses) {
     }
 }
 
-void fakePrint(Course classList[], int numClasses) {
+
+void printAll(Course classList[], int numClasses) {
     string line(40, '-');
 
     for (int i = 0; i < numClasses; ++i) {
@@ -303,9 +310,6 @@ void fakePrint(Course classList[], int numClasses) {
         }
     }
 }
-
-
-
 
 
 double calculateGrades(Course classList[], int index, bool doTotalGrade) {

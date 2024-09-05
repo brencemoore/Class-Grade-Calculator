@@ -35,6 +35,6 @@ double calculateGrades(Course[], int, bool);
 void saveToFile(Course[], int);
 int printClasses(Course[], int, string);
 
-void fakePrint(Course[], int);
+void printAll(Course[], int);
 
 #endif

@@ -19,12 +19,13 @@ int main() {
              << " 3.  " << setw(32) << "  Add Grades" << endl
              << " 4.  " << setw(32) << "  Remove Grades" << endl
              << " 5.  " << setw(32) << "  Print Grades" << endl
-             << " 6.  " << setw(32) << "  Exit" << endl << setfill(' ')
+             << " 6.  " << setw(32) << "  Print All Data" << endl
+             << " 7.  " << setw(32) << "  Exit" << endl << setfill(' ')
              << line << endl << " Enter a number 1-6:  ";
         cin >> menuChoice;
         cin.ignore();
 
-        while (menuChoice > 6 || menuChoice < 1) {
+        while (menuChoice > 7 || menuChoice < 1) {
             cout << " Enter a number 1-6:  ";
             cin >> menuChoice;
             cin.ignore();
@@ -51,7 +52,11 @@ int main() {
             printGrades(classList, numClasses);
         }
 
-    } while (menuChoice != 6);
+        if (menuChoice == 6) {
+            printAll(classList, numClasses);
+        }
+
+    } while (menuChoice != 7);
 
     cout << "\nDo you want to save your classes?\nSelecting no will keep the data that was stored when opened\n(y or n):  ";
     cin >> save;
