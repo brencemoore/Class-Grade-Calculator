@@ -129,7 +129,7 @@ int editClass(Course classList[], int numClasses) {
     }
 
     if (menuChoice == 2) {
-        cout << "\nChoose the part of grade that you want to change or -1 to Cancel." << endl;
+        cout << "\nChoose the part of grade that you want to change." << endl;
         for (i = 0; i < classList[classIndex].partsOfGrade; ++i) {
             cout << "\t" << i + 1 << ".  " << classList[classIndex].grade[i].name << endl;
         }
@@ -139,10 +139,9 @@ int editClass(Course classList[], int numClasses) {
             cout << "Enter 1-" << i + 1 << ":  ";
             cin >> gradePartChoice;
             cin.ignore();
-
-            if (gradePartChoice == -1) {
-                return numClasses;
-            }
+        }
+        if (gradePartChoice == i + 1) {
+            return numClasses;
         }
 
         cout << "\nEnter a new name for " << classList[classIndex].grade[gradePartChoice - 1].name << " or CANCEL.\n\tNew name:  ";
@@ -156,21 +155,21 @@ int editClass(Course classList[], int numClasses) {
     }
 
     if (menuChoice == 3) {
-        cout << "\nChoose the part of grade that you want to change or -1 to Cancel." << endl;
+        cout << "\nChoose the part of grade that you want to change." << endl;
         for (i = 0; i < classList[classIndex].partsOfGrade; ++i) {
             cout << "\t" << i + 1 << ".  " << classList[classIndex].grade[i].name
                  << "  WEIGHT:  " << fixed << setprecision(2) << classList[classIndex].grade[i].weight << endl;
         }
+        cout << "\t" << i + 1 << ". Cancel" << endl;
 
         // Selection validation and cancel option
         while (gradePartChoice > i + 1 || gradePartChoice < 1) {
             cout << "Enter 1-" << i + 1 << ":  ";
             cin >> gradePartChoice;
             cin.ignore();
-
-            if (gradePartChoice == -1) {
-                return numClasses;
-            }
+        }
+        if (gradePartChoice == i + 1) {
+            return numClasses;
         }
 
         cout << "\nEnter a new weight for " << classList[classIndex].grade[gradePartChoice - 1].name << " or -1 to Cancel.\n\tNew weight:  ";
@@ -182,7 +181,7 @@ int editClass(Course classList[], int numClasses) {
     }
 
     if (menuChoice == 4) {
-        cout << "\nAre you sure? You cannot undo this. (y / n):  ";
+        cout << "\nAre you sure? You cannot undo this. (y or n):  ";
         getline(cin, confirm);
 
         if (confirm == "y") {
@@ -225,9 +224,10 @@ void addGrades(Course classList[], int numClasses) {
     double grade;
 
     classIndex = printClasses(classList, numClasses, "Add Grades");
-
-    while (gradePartChoice != i + 1 && classIndex != -1) {
+//gradePartChoice != i + 1 && 
+    while (classIndex != -1) {
         grade = 0;
+        gradePartChoice = -1;
         cout << "\nChoose the part of grade that you want to add grades to." << endl;
         for (i = 0; i < classList[classIndex].partsOfGrade; ++i) {
             cout << "\t" << i + 1 << ".  " << classList[classIndex].grade[i].name << endl;
@@ -238,11 +238,15 @@ void addGrades(Course classList[], int numClasses) {
         while (gradePartChoice > i + 1 || gradePartChoice < 1) {
             cout << "Enter 1-" << i + 1 << ":  ";
             cin >> gradePartChoice;
+
+            if (gradePartChoice == i + 1) {
+                return;
+            }
         }
 
         numGrades = classList[classIndex].grade[gradePartChoice - 1].numGrades;
-
-        while (grade >= 0 && gradePartChoice != i + 1) {
+// && gradePartChoice != i + 1
+        while (grade >= 0) {
             cout << "\nEnter a grade for " << classList[classIndex].grade[gradePartChoice - 1].name << ".\n\tNew grade (-1 to stop):  ";
             cin >> grade;
 
@@ -253,18 +257,20 @@ void addGrades(Course classList[], int numClasses) {
         }
 
         classList[classIndex].grade[gradePartChoice - 1].numGrades = numGrades;
+
+        cout << grade << endl << gradePartChoice << endl;
+
     }
 }
 
 
 void removeGrades(Course classList[], int numClasses) {
     int classIndex, i, gradePartChoice, numGrades, removeIndex = 0;
-    double grade;
 
     classIndex = printClasses(classList, numClasses, "Remove Grades");
 
-    while (gradePartChoice != i + 1 && classIndex != -1) {
-        grade = 0;
+    while (classIndex != -1) {
+        gradePartChoice = -1;
         cout << "\nChoose the part of grade that you want to remove grades from." << endl;
         for (i = 0; i < classList[classIndex].partsOfGrade; ++i) {
             cout << "\t" << i + 1 << ".  " << classList[classIndex].grade[i].name << endl;
@@ -275,27 +281,36 @@ void removeGrades(Course classList[], int numClasses) {
         while (gradePartChoice > i + 1 || gradePartChoice < 1) {
             cout << "Enter 1-" << i + 1 << ":  ";
             cin >> gradePartChoice;
+
+            if (gradePartChoice == i + 1) {
+                return;
+            } 
         }
 
         while (removeIndex != -1) {
+            removeIndex = 0;
             cout << "Grades for " << classList[classIndex].name << ", " << classList[classIndex].grade[gradePartChoice - 1].name << ":" << endl;
 
             for (i = 0; i < classList[classIndex].grade[gradePartChoice - 1].numGrades; ++i) {
                 cout << i + 1 << ".\t" << classList[classIndex].grade[gradePartChoice - 1].gradeList[i] << endl;
             }
 
-            cout << "Enter a number to remove that grade (-1 exits):  ";
-            cin >> removeIndex;
+            while (removeIndex > i || removeIndex < 1) {
+                cout << "Enter a number 1-" << i << " to remove that grade (-1 to stop):  ";
+                cin >> removeIndex;
 
-            // Stops selecting grades to delete
-            if (removeIndex == -1) {
-                break;
+                // Stops selecting grades to delete
+                if (removeIndex == -1) {
+                    break;
+                }
             }
 
-            for (i = removeIndex - 1; i < classList[classIndex].grade[gradePartChoice - 1].numGrades; ++i) {
-                classList[classIndex].grade[gradePartChoice - 1].gradeList[i] = classList[classIndex].grade[gradePartChoice - 1].gradeList[i + 1];
+            if (removeIndex != -1) {
+                for (i = removeIndex - 1; i < classList[classIndex].grade[gradePartChoice - 1].numGrades; ++i) {
+                    classList[classIndex].grade[gradePartChoice - 1].gradeList[i] = classList[classIndex].grade[gradePartChoice - 1].gradeList[i + 1];
+                }
+                classList[classIndex].grade[gradePartChoice - 1].numGrades -= 1;
             }
-            classList[classIndex].grade[gradePartChoice - 1].numGrades -= 1;
         }
     }
 }
