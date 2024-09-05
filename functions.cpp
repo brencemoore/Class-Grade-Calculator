@@ -96,8 +96,9 @@ int addClass(Course classList[], int numClasses) {
 
 
 int editClass(Course classList[], int numClasses) {
-    int classIndex, menuChoice, gradePartChoice, i;
-    string confirm;
+    int classIndex, menuChoice = -1, gradePartChoice = -1, i;
+    string confirm, newName;
+    double newWeight;
 
     classIndex = printClasses(classList, numClasses, "Edit/Delete");
 
@@ -109,47 +110,78 @@ int editClass(Course classList[], int numClasses) {
          << "\t1.  Change name" << endl
          << "\t2.  Change part of grade name" << endl
          << "\t3.  Change part of grade weight" << endl
-         << "\t4.  Add part of grade" << endl
-         << "\t5.  Remove part of grade" << endl
-         << "\t6.  Delete class" << endl
-         << "\t7.  Cancel" << endl
-         << "Enter 1-7:  ";
-    cin >> menuChoice;
-    cin.ignore();
+         << "\t4.  Delete class" << endl
+         << "\t5.  Cancel" << endl;
+
+    while (menuChoice > 5 || menuChoice < 1) {
+        cout << "Enter 1-5:  ";
+        cin >> menuChoice;
+        cin.ignore();
+    }
 
     if (menuChoice == 1) {
-        cout << "\nEnter a new name for " << classList[classIndex].name << ":  ";
-        getline(cin, classList[classIndex].name);
+        cout << "\nEnter a new name for " << classList[classIndex].name << " or CANCEL:  ";
+        getline(cin, newName);
+
+        if (newName != "CANCEL") {
+            classList[classIndex].name = newName;
+        }
     }
 
     if (menuChoice == 2) {
-        cout << "\nChoose the part of grade that you want to change." << endl;
+        cout << "\nChoose the part of grade that you want to change or -1 to Cancel." << endl;
         for (i = 0; i < classList[classIndex].partsOfGrade; ++i) {
             cout << "\t" << i + 1 << ".  " << classList[classIndex].grade[i].name << endl;
         }
-        cout << "Enter 1-" << i + 1 << ":  ";
-        cin >> gradePartChoice;
-        cin.ignore();
+        cout << "\t" << i + 1 << ".  Cancel" << endl;
 
-        cout << "\nEnter a new name for " << classList[classIndex].grade[gradePartChoice - 1].name << ".\n\tNew name:  ";
-        getline(cin, classList[classIndex].grade[gradePartChoice - 1].name);
+        while (gradePartChoice > i + 1 || gradePartChoice < 1) {
+            cout << "Enter 1-" << i + 1 << ":  ";
+            cin >> gradePartChoice;
+            cin.ignore();
+
+            if (gradePartChoice == -1) {
+                return numClasses;
+            }
+        }
+
+        cout << "\nEnter a new name for " << classList[classIndex].grade[gradePartChoice - 1].name << " or CANCEL.\n\tNew name:  ";
+
+        getline(cin, newName);
+
+        // Checks if user no longer wants to change the name for a part of a grade
+        if (newName != "CANCEL") {
+            classList[classIndex].grade[gradePartChoice - 1].name = newName;
+        }
     }
 
     if (menuChoice == 3) {
-        cout << "\nChoose the part of grade that you want to change." << endl;
+        cout << "\nChoose the part of grade that you want to change or -1 to Cancel." << endl;
         for (i = 0; i < classList[classIndex].partsOfGrade; ++i) {
             cout << "\t" << i + 1 << ".  " << classList[classIndex].grade[i].name
                  << "  WEIGHT:  " << fixed << setprecision(2) << classList[classIndex].grade[i].weight << endl;
         }
-        cout << "Enter 1-" << i + 1 << ":  ";
-        cin >> gradePartChoice;
-        cin.ignore();
 
-        cout << "\nEnter a new weight for " << classList[classIndex].grade[gradePartChoice - 1].name << ".\n\tNew weight:  ";
-        getline(cin, classList[classIndex].grade[gradePartChoice - 1].name);
+        // Selection validation and cancel option
+        while (gradePartChoice > i + 1 || gradePartChoice < 1) {
+            cout << "Enter 1-" << i + 1 << ":  ";
+            cin >> gradePartChoice;
+            cin.ignore();
+
+            if (gradePartChoice == -1) {
+                return numClasses;
+            }
+        }
+
+        cout << "\nEnter a new weight for " << classList[classIndex].grade[gradePartChoice - 1].name << " or -1 to Cancel.\n\tNew weight:  ";
+        cin >> newWeight;
+
+        if (newWeight != -1) {
+            classList[classIndex].grade[gradePartChoice - 1].weight = newWeight;
+        }
     }
 
-    if (menuChoice == 6) {
+    if (menuChoice == 4) {
         cout << "\nAre you sure? You cannot undo this. (y / n):  ";
         getline(cin, confirm);
 
@@ -201,8 +233,12 @@ void addGrades(Course classList[], int numClasses) {
             cout << "\t" << i + 1 << ".  " << classList[classIndex].grade[i].name << endl;
         }
         cout << "\t" << i + 1 << ".  Exit" << endl;
-        cout << "Enter 1-" << i + 1 << ":  ";
-        cin >> gradePartChoice;
+
+        // Validates user input
+        while (gradePartChoice > i + 1 || gradePartChoice < 1) {
+            cout << "Enter 1-" << i + 1 << ":  ";
+            cin >> gradePartChoice;
+        }
 
         numGrades = classList[classIndex].grade[gradePartChoice - 1].numGrades;
 
@@ -234,8 +270,12 @@ void removeGrades(Course classList[], int numClasses) {
             cout << "\t" << i + 1 << ".  " << classList[classIndex].grade[i].name << endl;
         }
         cout << "\t" << i + 1 << ".  Exit" << endl;
-        cout << "Enter 1-" << i + 1 << ":  ";
-        cin >> gradePartChoice;
+
+        // Validates user input
+        while (gradePartChoice > i + 1 || gradePartChoice < 1) {
+            cout << "Enter 1-" << i + 1 << ":  ";
+            cin >> gradePartChoice;
+        }
 
         while (removeIndex != -1) {
             cout << "Grades for " << classList[classIndex].name << ", " << classList[classIndex].grade[gradePartChoice - 1].name << ":" << endl;
@@ -247,6 +287,7 @@ void removeGrades(Course classList[], int numClasses) {
             cout << "Enter a number to remove that grade (-1 exits):  ";
             cin >> removeIndex;
 
+            // Stops selecting grades to delete
             if (removeIndex == -1) {
                 break;
             }
