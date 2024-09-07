@@ -40,7 +40,7 @@ When you run the executable, a title and menu will appear in the terminal window
 7. **Exit:**  
    - Exits the program and saves all entered data to a text file. If the user does not wish to save the new data, only the original data loaded at the start will remain.
 
-## Important Notes:
+## Important Notes
 - **Grade Components:** When the program refers to "part of a grade" or "parts of a grade," it means the components that make up the overall grade, such as tests, homework, quizzes, etc. These components should be entered as decimal values (e.g., 0.60 for 60%).
 - **Cancel Options:** Most prompts provide a way to cancel the operation:
   - For string inputs, type "CANCEL" to cancel the action.
