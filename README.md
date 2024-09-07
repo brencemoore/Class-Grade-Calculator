@@ -59,6 +59,7 @@ This usage guide should help users navigate the Class Grade Calculator effective
 2. Download the source code files.
 3. Open a terminal and navigate to the directory containing the source code.
 4. Compile the code using the following command in a terminal or console window:
+   ```bash
    g++ main.cpp functions.cpp -o calculator
    
 - (calculator is the name of the exectuable so this can be whatever the user wants)
