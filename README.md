@@ -40,7 +40,7 @@ When you run the executable, a title and menu will appear in the terminal window
 7. **Exit:**  
    - Exits the program and saves all entered data to a text file. If the user does not wish to save the new data, only the original data loaded at the start will remain.
 
-### Important Notes:
+## Important Notes:
 - **Grade Components:** When the program refers to "part of a grade" or "parts of a grade," it means the components that make up the overall grade, such as tests, homework, quizzes, etc. These components should be entered as decimal values (e.g., 0.60 for 60%).
 - **Cancel Options:** Most prompts provide a way to cancel the operation:
   - For string inputs, type "CANCEL" to cancel the action.
@@ -58,7 +58,10 @@ This usage guide should help users navigate the Class Grade Calculator effective
 1. Ensure you have a C++ compiler installed (e.g., GCC).
 2. Download the source code files.
 3. Open a terminal and navigate to the directory containing the source code.
-4. Compile the code using the following command:
+4. Compile the code using the following command in a terminal or console window:
    g++ main.cpp functions.cpp -o calculator
    
 - (calculator is the name of the exectuable so this can be whatever the user wants)
+
+## Why I Made This
+I always like to keep track of my grade and once I entered university, calculating my grade became more complex then just taking the average of my grade. I realized that I could save time on taking averages and multiplying weights by creating a program to do it for me. Once I had finished my fall semester of my freshman year (Fall 2023), I created this program to do all of the calculations for me. I am really happy with how this turned out and that it is fairly simple to use and extremely practical to use. I would love to make this into a GUI program as I think that would improve the usablility a lot, but I have not learned those skills yet!
